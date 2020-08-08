@@ -1,8 +1,12 @@
 # PlantManager
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/plant_manager`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+I want this project to:
+    1. ask the user for the name of a plant
+    2. take input of plant name
+    3. ask condition of plant (healthy, yellow, brown)
+    4. if healthy say good job!
+    5. if yellow provide steps to fix it 
+    6. if brown provide steps to fix it 
 
 ## Installation
 
