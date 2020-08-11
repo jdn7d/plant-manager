@@ -7,24 +7,25 @@ class PlantManager::CLI
         @input = nil        
         plant = Plant.new(Scraper.scraper)
     end
-    def call
-        puts "Which houseplant are you are you curious about today? Type exit if you don't want to search for a plant. Type all to see all plants."
+    def call 
         while @input != "exit"
+            
+            puts "Which houseplant are you are you curious about today? Type exit if you don't want to search for a plant. Type all to see all plants."
+            input = gets.strip
+            
+        if @input == "all"
             puts "Here is a list of all the houseplants."
             PlantManager::Plant.all_plants
-            input = gets.strip
-        if @input == "all"
-            call
+            
         elsif @input == "exit"
             exit
         elsif @input.to_i.between?(1, PlantManager::Plant.all.count)
             select_plant
+        elsif  @input == "exit"
+            exit 
         else
-            puts "Invalid Entry"
-            call
-        end
-        if @input == "exit"
-            exit
+            #puts "Invalid Entry"
+        
         end
         end
     end
@@ -36,8 +37,7 @@ class PlantManager::CLI
             puts ""
       
             puts "#{index+1}. #{plant.name}#{plant.water}#{plant.light}#{plant.fertilizer}"
-          end
-          
+          end 
     end
     def exit
         puts "Good luck keeping those plants alive!"

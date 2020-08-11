@@ -9,8 +9,7 @@ class PlantManager::Scraper
           urls[1,urls.length].each do |url|                                                        #opens each url, skipping the first because it is "/"
             opened_url = Nokogiri::HTML(open(url))                                                 #this is the opened url
             plant_information = opened_url.css("p")                                                #each p element is the plant information
-            plant_information.collect do |paragraph|                                               #i'm itering through each paragraph element because they were coded into indiv classes
-                                                               
+            plant_information.each do |paragraph|                                               #i'm itering through each paragraph element because they were coded into indiv classes                                            
                 name = opened_url.css("h1").text
                 if paragraph.css("span b").text.include?("Water:")
                   water = paragraph
@@ -19,10 +18,9 @@ class PlantManager::Scraper
                 elsif paragraph.css("span b").text.include?("Fertilizer:")
                   fertilizer = paragraph
                 end
+                name = PlantManager::Plant.new(name, water, light, fertilizer)  
             end
           end
         end
-
-        
   end
   
