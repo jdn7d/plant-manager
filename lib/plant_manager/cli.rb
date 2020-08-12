@@ -1,19 +1,17 @@
 # Our CLI Controller
 # menus and main logic 
 class PlantManager::CLI
-    guide_url =  "https://www.guide-to-houseplants.com/house-plants-encyclopedia-a-z.html"
-    
+   
     def menu
         @input = nil        
-        plant = Plant.new(Scraper.scraper)
-    end
-    def call 
+        PlantManager::Scraper.scraper
         while @input != "exit"
             
             puts "Which houseplant are you are you curious about today? Type exit if you don't want to search for a plant. Type all to see all plants."
-            input = gets.strip
+            @input = gets.strip
             
         if @input == "all"
+        
             puts "Here is a list of all the houseplants."
             PlantManager::Plant.all_plants
             

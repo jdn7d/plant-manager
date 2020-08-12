@@ -8,7 +8,7 @@ class PlantManager::Plant
     def self.find(plant_number)                               #this is looking in the class variable for a plant 
       @@all[plant_number.to_i-1]
     end
-    def initialize(name)
+    def initialize(name, water, light, fertilizer)
       @name = name
       @water = water 
       @light = light 
