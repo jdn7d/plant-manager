@@ -4,35 +4,41 @@ class PlantManager::Scraper
     guide_url =  "https://www.guide-to-houseplants.com/house-plants-encyclopedia-a-z.html" 
     parsed_page = Nokogiri::HTML(open(guide_url))  
     
-    urls = parsed_page.css(".Liner")[1].css("a").collect {|all| all.text unless all.attribute("href").value == "#top" || all.attribute("href").value == nil } 
-    urls.each.with_index(1).each do |index, url|
-    puts "#{url}. #{index} "
-    end    
+    urls = parsed_page.css(".Liner")[1].css("a").each do |all| 
+      plant_name = all.text unless all.attribute("href").value == "#top" || all.attribute("href").value == nil 
+      plant_url = all.attribute("href").value
+      PlantManager::Plant.new(plant_name, plant_url)
+     
+    end
+    
+    #urls.each.with_index(1).each do | url|
+    #puts "#{url}. #{index} "
+    #end    
   end
 
-  def self.scrape_info                     
-    urls.each do |url|     
-      puts "hi"                                                   #opens each url, skipping the first because it is "/"
-      opened_url = Nokogiri::HTML(open(url))                                              #this is the opened url
-      water, light, fertilizer, name = "", "", "", ""
-       
-      plant_information = opened_url.css("p") 
-                                                    
+  def self.scrape_info(plant_url)                   
+    
+      opened_url = Nokogiri::HTML(open(plant_url))                                              
+      water, light, fertilizer = "", "", ""
+      plant_information = opened_url.css("p")                                     
+      
       plant_information.each do |paragraph|                                                                                        
-        name = opened_url.css("h1").text
-        if paragraph.css("span b").text.include?("Water:")
-          water = paragraph.text
-        elsif paragraph.css("span b").text.include?("Light:")
+        if paragraph.css("span b").text.include?("Water:") 
+          water = paragraph. 
+        elsif paragraph.css('span b:contains("Light:")') 
           light = paragraph.text
         elsif paragraph.css("span b").text.include?("Fertilizer:")
           fertilizer = paragraph.text
+        else
+          puts "no info"
           byebug
         end         
+        name = opened_url.css("h1").text
         PlantManager::Plant.new(name, water, light, fertilizer)  
       end
     end      
 
   end
-end
+
 
   
