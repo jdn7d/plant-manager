@@ -6,20 +6,20 @@ class PlantManager::CLI
         def menu    
             
         PlantManager::Scraper.scrape_names
-        byebug
-        puts "Which houseplant are you are you curious about today? Type exit if you don't want to search for a plant. Type all to see all plants."
-    
+        question = "Which houseplant are you are you curious about today? Type none if you don't want to search for a plant. Type all to see all plants."
+        puts question
         @input = nil     
         while @input != "exit"   
             @input = gets.strip
             if @input == "all"
                 puts "Here is a list of all the houseplants."
                 PlantManager::Scraper.scrape_names
+                puts question
+            elsif @input.to_i.between?(1, PlantManager::Plant.all.count)
+                PlantManager::Plant.self.find(@input)
+                select_plant   
             elsif @input == "exit"
                 exit
-            elsif @input.to_i.between?(1, PlantManager::Plant.all.count)
-                PlantManager::Scraper.scrape_info
-                select_plant
             elsif  @input == "exit"
                 exit 
             else
@@ -32,7 +32,7 @@ class PlantManager::CLI
         selected_plant = Plant.find(@input)
         puts "#{select_plant.name}:"
 
-        selected_plant.each_with_index do |plant, index|
+        selected_plant.each.with_index(1) do |plant, index|
             puts ""
       
             puts "#{index+1}. #{plant.name}#{plant.water}#{plant.light}#{plant.fertilizer}"
