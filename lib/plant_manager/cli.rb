@@ -3,8 +3,8 @@
 class PlantManager::CLI   
 
     
-        def menu    
-            
+    
+    def menu    
         PlantManager::Scraper.scrape_names
         question = "Which houseplant are you are you curious about today? Type none if you don't want to search for a plant. Type all to see all plants."
         puts question
@@ -16,14 +16,14 @@ class PlantManager::CLI
                 PlantManager::Scraper.scrape_names
                 puts question
             elsif @input.to_i.between?(1, PlantManager::Plant.all.count)
-                PlantManager::Plant.self.find(@input)
+                @input = plant_number
+                PlantManager::Plant.self.find(plant_number)
                 select_plant   
-            elsif @input == "exit"
+            elsif @input == "none"
                 exit
-            elsif  @input == "exit"
-                exit 
             else
-                #puts "Invalid Entry"
+                puts "Invalid Entry"
+                puts question
             end 
         end
     end

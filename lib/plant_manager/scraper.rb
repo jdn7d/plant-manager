@@ -20,18 +20,18 @@ class PlantManager::Scraper
                                                     
       plant_information.each do |paragraph|                                                                                        
         name = opened_url.css("h1").text
-      
         if paragraph.css("span b").text.include?("Water:")
           water = paragraph.text
         elsif paragraph.css("span b").text.include?("Light:")
           light = paragraph.text
         elsif paragraph.css("span b").text.include?("Fertilizer:")
           fertilizer = paragraph.text
+          byebug
         end         
-      end
         PlantManager::Plant.new(name, water, light, fertilizer)  
+      end
     end      
-      byebug
+
   end
 end
 
