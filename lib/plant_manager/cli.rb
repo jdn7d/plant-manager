@@ -18,13 +18,11 @@ class PlantManager::CLI
                 PlantManager::Plant.all.each.with_index(1) {|i, index| puts "#{index}. #{i.name}"}
                 puts question
             elsif @input.to_i.between?(1, PlantManager::Plant.all.count)
-                PlantManager::Plant.all[@input.to_i-1].url
-               
-                PlantManager::Scraper.scrape_info(plant_url)
-                byebug
                 plant_number = @input.to_i-1
-                #PlantManager::Plant.self.find(plant_number)
-                #select_plant   
+                #PlantManager::Scraper.all_names
+                plant_url = PlantManager::Plant.all[@input.to_i-1].url
+                PlantManager::Scraper.scrape_info(plant_url)   
+                
             elsif @input == "none"
                 exit
             else

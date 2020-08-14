@@ -4,17 +4,18 @@ class PlantManager::Scraper
   def self.scrape_names
     guide_url =  "https://www.guide-to-houseplants.com/house-plants-encyclopedia-a-z.html" 
     parsed_page = Nokogiri::HTML(open(guide_url))  
-    
+    plant_name = ""
+    plant_url = ""
     parsed_page.css(".Liner")[1].css("a").each do |all| 
       plant_name = all.text unless all.attribute("href").value == "#top" || all.attribute("href").value == nil 
       plant_url = all.attribute("href").value
       @@all_names << PlantManager::Plant.new(plant_name, plant_url)
-      byebug
     end
     #all_names = .all.each.with_index(1) {|i, index| puts "#{index}. #{i.name}"}
     #urls.each.with_index(1).each do | url|
     #puts "#{url}. #{index} "
     #end    
+    
   end
 
   def self.all_names
@@ -22,7 +23,7 @@ class PlantManager::Scraper
   end
 
   def self.scrape_info(plant_url)                   
-    
+      @@all_names
       opened_url = Nokogiri::HTML(open(plant_url))                                              
       water, light, fertilizer = "", "", ""
       plant_information = opened_url.css("p")                                     
@@ -35,6 +36,7 @@ class PlantManager::Scraper
         elsif paragraph.css("span b").text.include?("Fertilizer:")
           fertilizer = paragraph.text
         else
+          byebug
           puts "no info"
           byebug
         end         
