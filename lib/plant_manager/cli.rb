@@ -6,16 +6,19 @@ class PlantManager::CLI
         PlantManager::Scraper.scrape_names
         question = "Which houseplant are you are you curious about today? Type none if you don't want to search for a plant. Type all to see all plants."
         PlantManager::Plant.all.each.with_index(1) {|i, index| puts "#{index}. #{i.name}"}
+        
+        #byebug
         puts question
         @input = nil     
-        while @input != "exit"   
+        while @input != "none"   
             @input = gets.strip
             if @input == "all"
                 puts "Here is a list of all the houseplants."
                 PlantManager::Scraper.scrape_names
+                PlantManager::Plant.all.each.with_index(1) {|i, index| puts "#{index}. #{i.name}"}
                 puts question
             elsif @input.to_i.between?(1, PlantManager::Plant.all.count)
-                plant_url = PlantManager::Plant.all[@input.to_i-1].url
+                PlantManager::Plant.all[@input.to_i-1].url
                
                 PlantManager::Scraper.scrape_info(plant_url)
                 byebug
