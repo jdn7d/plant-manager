@@ -8,9 +8,9 @@ class PlantManager::CLI
 
     def menu    
         print_options
-        puts "Which houseplant are you are you curious about today? Type none if you don't want to search for a plant. Type all to see all plants." 
+        puts "Which houseplant are you are you curious about today? Type exit if you don't want to search for a plant. Type all to see all plants." 
         @input = nil     
-        while @input != "none"   
+        while @input != "exit"   
             @input = gets.strip
 
             if @input == "all"
@@ -20,20 +20,14 @@ class PlantManager::CLI
                 plant_number = @input.to_i-1
                 plant_url = PlantManager::Plant.all[@input.to_i-1].url
                 PlantManager::Scraper.scrape_info(plant_url) 
-                PlantManager::Plant.find_by_url(plant_url)
-            elsif @input == "none"
+                PlantManager::Plant.print_info(plant_url)
+            elsif @input == "exit"
                 exit
             else
                 puts "Invalid Entry"
-                puts "Which houseplant are you are you curious about today? Type none if you don't want to search for a plant. Type all to see all plants." 
+                puts "Which houseplant are you are you curious about today? Type exit if you don't want to search for a plant. Type all to see all plants." 
             end 
         end
-    end
-
-    def self.print_info
-    
-      puts ""
-      
     end
 
     def exit
