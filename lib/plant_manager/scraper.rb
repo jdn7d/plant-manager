@@ -9,9 +9,9 @@ class PlantManager::Scraper
     parsed_page.css(".Liner")[1].css("a").each do |all| 
       plant_name = all.text unless all.attribute("href").value == "#top" || all.attribute("href").value == nil 
       plant_url = all.attribute("href").value
-      new_plant = PlantManager::Plant.new(plant_name, plant_url)
-      @@all_names_urls << new_plant
+      PlantManager::Plant.new_by_url(plant_name, plant_url)  
     end
+    PlantManager::Plant.all.each.with_index(1) {|i, index| puts "#{index}. #{i.name}"} 
   end
 
   def self.all_names_urls
@@ -23,13 +23,14 @@ class PlantManager::Scraper
     opened_url = Nokogiri::HTML(open(plant_url))                                              
     water, light, fertilizer = "", "", ""
     plant_information = opened_url.css("p")                                     
-    #name = opened_url.css("h1").text
-    PlantManager::Plant.get_info(plant_information)
-    
-    
-    #PlantManager::Plant.set_name.water = water
-    #PlantManager::CLI.print_info(name, water, light, fertilizer)
-    #PlantManager::Plant.find(plant_url)
+    name = opened_url.css("h1").text
+    plant_information.each do |paragraph|                                                                                        
+      water = paragraph.text if paragraph.text.include?("Water:") 
+      light = paragraph.text if paragraph.text.include?("Light:") 
+      fertilizer = paragraph.text if paragraph.text.include?("Fertilizer:") 
+    end
+    PlantManager::Plant.new_by_info(water, light, fertilizer)
+    #PlantManager::Plant.get_info(plant_information)
   end      
 end
 
