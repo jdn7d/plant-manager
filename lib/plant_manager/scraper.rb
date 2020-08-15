@@ -1,5 +1,5 @@
 class PlantManager::Scraper 
-  @@all_names = []
+  @@all_names_urls = []
 
   def self.scrape_names
     guide_url =  "https://www.guide-to-houseplants.com/house-plants-encyclopedia-a-z.html" 
@@ -9,43 +9,29 @@ class PlantManager::Scraper
     parsed_page.css(".Liner")[1].css("a").each do |all| 
       plant_name = all.text unless all.attribute("href").value == "#top" || all.attribute("href").value == nil 
       plant_url = all.attribute("href").value
-      @@all_names << PlantManager::Plant.new(plant_name, plant_url)
+      new_plant = PlantManager::Plant.new(plant_name, plant_url)
+      @@all_names_urls << new_plant
     end
-    #all_names = .all.each.with_index(1) {|i, index| puts "#{index}. #{i.name}"}
-    #urls.each.with_index(1).each do | url|
-    #puts "#{url}. #{index} "
-    #end    
-    
   end
 
-  def self.all_names
-    @@all_names
+  def self.all_names_urls
+    @@all_names_urls
   end
 
   def self.scrape_info(plant_url)                   
-      @@all_names
-      opened_url = Nokogiri::HTML(open(plant_url))                                              
-      water, light, fertilizer = "", "", ""
-      plant_information = opened_url.css("p")                                     
-      
-      plant_information.each do |paragraph|                                                                                        
-        if paragraph.css("span b").text.include?("Water:") 
-          water = paragraph. 
-        elsif paragraph.css('span b:contains("Light:")') 
-          light = paragraph.text
-        elsif paragraph.css("span b").text.include?("Fertilizer:")
-          fertilizer = paragraph.text
-        else
-          byebug
-          puts "no info"
-          byebug
-        end         
-        name = opened_url.css("h1").text
-        PlantManager::Plant.new(name, water, light, fertilizer)  
-      end
-    end      
-
-  end
+    @@all_names_urls
+    opened_url = Nokogiri::HTML(open(plant_url))                                              
+    water, light, fertilizer = "", "", ""
+    plant_information = opened_url.css("p")                                     
+    #name = opened_url.css("h1").text
+    PlantManager::Plant.get_info(plant_information)
+    
+    
+    #PlantManager::Plant.set_name.water = water
+    #PlantManager::CLI.print_info(name, water, light, fertilizer)
+    #PlantManager::Plant.find(plant_url)
+  end      
+end
 
 
   
