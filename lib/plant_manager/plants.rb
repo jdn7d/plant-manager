@@ -26,14 +26,6 @@ class PlantManager::Plant
       plant.save
     end
 
-    def self.new_by_info(water, light, fertilizer)
-      plant = self.new
-      plant.water = water
-      plant.light = light
-      plant.fertilizer = fertilizer
-      plant.save
-    end
-
     def self.find_by_url(plant_url,water, light, fertilizer)
       plant = self.all.find {|plant| plant.url == plant_url}
       plant.water = water
@@ -44,18 +36,17 @@ class PlantManager::Plant
 
     def self.print_info(plant_url)
       i =  self.all.find {|plant| plant.url == plant_url}
-        puts ""
-        puts "Here is some information on how to care for a #{i.name}:"
-        puts "---------------"
-        puts "#{i.water}"
-        puts "---------------"
-        puts "#{i.light}"
-        puts "---------------"
-        puts "#{i.fertilizer}"
-        puts "---------------"
-        puts "Good luck keeping your #{i.name} alive!"
-        puts ""
-      
+      puts ""
+      puts "Here is some information on how to care for a #{i.name}:"
+      puts "---------------"
+      puts "#{i.water}"
+      puts "---------------"
+      puts "#{i.light}"
+      puts "---------------"
+      puts "#{i.fertilizer}"
+      puts "---------------"
+      puts "Good luck keeping your #{i.name} alive!"
+      puts ""   
     end  
 end
   

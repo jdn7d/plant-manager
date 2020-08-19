@@ -1,5 +1,5 @@
 class PlantManager::Scraper 
-  @@all_names_urls = []
+   
   plant_name = ""
   plant_url = ""
 
@@ -11,15 +11,15 @@ class PlantManager::Scraper
       plant_url = all.attribute("href").value
       PlantManager::Plant.new_by_url(plant_name, plant_url)  
     end
-    PlantManager::Plant.all.each.with_index(1) {|i, index| puts "#{index}. #{i.name}"} 
   end
-
+  
   def self.all_names_urls
-    @@all_names_urls
+    PlantManager::Plant.all.each.with_index(1) {|i, index| puts "#{index}. #{i.name}"} 
+    
   end
 
   def self.scrape_info(plant_url)                   
-    @@all_names_urls
+    
     opened_url = Nokogiri::HTML(open(plant_url))                                              
     water, light, fertilizer = "", "", ""
     plant_information = opened_url.css("p")                                     
