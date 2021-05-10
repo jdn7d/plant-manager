@@ -9,7 +9,7 @@ class PlantManager::CLI
 
     def menu    
         print_options
-        puts "Which houseplant are you are you curious about today? Type the number of the plant, type exit if you don't want to search for a plant and type all to see all plants." 
+        puts "Which houseplant do you want to learn about? Type the number of the plant to view, xor type exit if you don't want to search for a plant and type all to see all plants." 
         @input = nil     
         while @input != "exit"   
             @input = gets.strip
